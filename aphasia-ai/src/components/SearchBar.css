@@ -6,6 +6,11 @@
     background-color: rgba(240, 240, 240, 0.7);
     padding: 10px;
     margin: 10px;
+    transition: transform 0.3s ease;
+}
+
+.search-bar-container.up {
+    transform: translateY(-100%);
 }
 
 .search-input {

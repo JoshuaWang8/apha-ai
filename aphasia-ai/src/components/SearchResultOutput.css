@@ -1,0 +1,19 @@
+.search-result-blob {
+    display: none;
+    /* Initially hidden */
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 400px;
+    margin: 20px auto;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.search-result-blob.visible {
+    display: block;
+    /* Show the blob when visible */
+    opacity: 1;
+    transform: translateY(0);
+}
