@@ -7,7 +7,7 @@ export const FileUploadOutput = ({ filename, results, isVisible }) =>
         <div className={`file-output-blob ${isVisible ? 'visible' : ''}`}>
             {isVisible &&
                 <div>
-                    <p>File Results for: {filename}</p>
+                    <p>File results for: {filename}</p>
                     <ul>
                         {results.map((result, index) => (
                             <li key={index}>{result}</li>

@@ -1,14 +1,15 @@
 .file-output-blob {
     display: none;
     /* Initially hidden */
-    background-color: #fff;
+    background-color: rgb(245, 245, 222);
     color: #333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 16px;
-    max-width: 400px;
+    max-width: 500px;
     margin: 20px auto;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    font-size: 20pt;
 }
 
 .file-output-blob.visible {
