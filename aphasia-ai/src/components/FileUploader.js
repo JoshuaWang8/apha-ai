@@ -16,7 +16,7 @@ const FileUploader = ({ onFileUpload }) =>
         <div className='file-uploader-container'>
             <label htmlFor='file-input' className='file-input-label'>
                 <div> Click to Upload </div>
-                <input type="file" accept=".pdf, .jpg, .jpeg, .png, .docx" onChange={handleFileChange} />
+                <input type="file" accept=".pdf, .docx" onChange={handleFileChange} />
             </label>
         </div>
     );
