@@ -24,7 +24,6 @@ const FileUploader = ({ onProcessingComplete }) =>
                     setUploadedFile(text);
                     setFilename(file.name);
                     console.log(filename);
-                    console.log('PDF Text:', text);
                 } catch (error) {
                     console.error('Error reading PDF:', error);
                 }
