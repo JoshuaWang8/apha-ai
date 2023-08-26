@@ -37,7 +37,7 @@ function App()
     return (
         <div className="App">
             <header className="App-header">
-                <img src={Logo} alt="Logo" className="App-logo" width='500'/>
+                <img src={Logo} alt="Logo" className="App-logo" width='400' style={{padding: '40px'}}/>
                 {/* <SearchBar onSearch={handleSearch} onSearchComplete={handleSearchComplete} />
                 <SearchResultOutput searchTerm={searchTerm} results={searchResults} isVisible={blobVisible} /> */}
                 <FileUploader onProcessingComplete={handleProcessingComplete}/>
