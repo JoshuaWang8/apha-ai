@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { SearchBar } from './components/SearchBar';
-import { SearchResultOutput } from './components/SearchResultOutput';
 import './App.css';
 import FileUploader from './components/FileUploader';
 import { FileUploadOutput } from './components/FileUploadOutput';
+import { LoadingScreen } from './components/LoadingScreen';
 import Logo from './assets/apha-ai-logo.png';
 
 function App() {
