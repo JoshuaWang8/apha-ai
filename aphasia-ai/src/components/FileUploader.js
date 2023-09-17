@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './FileUploader.css';
 import { getDocument } from 'pdfjs-dist/webpack';
 
-
 const FileUploader = ({ onProcessingComplete }) =>
 {
     const [filename, setFilename] = useState('');
@@ -11,25 +10,34 @@ const FileUploader = ({ onProcessingComplete }) =>
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const buffer = e.target.result;
-                const typedArray = new Uint8Array(buffer);
-    
-                try {
-                    const pdf = await getDocument(typedArray).promise;
-                    const page = await pdf.getPage(1);
-                    const textContent = await page.getTextContent();
-                    const text = textContent.items.map(item => item.str).join('');
-                    setUploadedFile(text);
-                    setFilename(file.name);
-                    console.log(filename);
-                } catch (error) {
-                    console.error('Error reading PDF:', error);
-                }
-          };
-    
-          reader.readAsArrayBuffer(file);
+            // Check file type to use correct file reader
+            if (file.name.split(".")[1] === "pdf"){
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const buffer = e.target.result;
+                    const arr = new Uint8Array(buffer);
+
+                    try {
+                        const pdfFile = await getDocument(arr).promise; // Get pdf file
+                        let text = '';
+
+                        for (let i = 1; i <= pdfFile.numPages; i++) { // Read all pages
+                            const page = await pdfFile.getPage(i);
+                            const textContent = await page.getTextContent(); // Extract raw text from pdf file
+                            const pageText = textContent.items.map((item) => item.str).join(' ');
+                            text += pageText + '\n';
+                        }
+
+                        setUploadedFile(text);
+                        setFilename(file.name);
+                    } catch (error) {
+                        console.error('Error reading PDF:', error);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+
+            }
         }
     }
 
