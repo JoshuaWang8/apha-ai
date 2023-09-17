@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './FileUploader.css';
 import { getDocument } from 'pdfjs-dist/webpack';
+import Docxtemplater from 'docxtemplater';
+import PizZip from 'pizzip';
 
 const FileUploader = ({ onProcessingComplete }) =>
 {
@@ -10,13 +12,14 @@ const FileUploader = ({ onProcessingComplete }) =>
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            // Check file type to use correct file reader
-            if (file.name.split(".")[1] === "pdf"){
-                const reader = new FileReader();
-                reader.onload = async (e) => {
-                    const buffer = e.target.result;
-                    const arr = new Uint8Array(buffer);
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const buffer = e.target.result;
+                const arr = new Uint8Array(buffer);
+                const fileNameSplit = file.name.split("."); // For getting file type
 
+                // Check file type to use correct file reader
+                if (fileNameSplit[fileNameSplit.length - 1] === "pdf"){
                     try {
                         const pdfFile = await getDocument(arr).promise; // Get pdf file
                         let text = '';
@@ -27,17 +30,20 @@ const FileUploader = ({ onProcessingComplete }) =>
                             const pageText = textContent.items.map((item) => item.str).join(' ');
                             text += pageText + '\n';
                         }
-
-                        setUploadedFile(text);
-                        setFilename(file.name);
+                        setUploadedFile(text); // Set extracted text
+                        
                     } catch (error) {
                         console.error('Error reading PDF:', error);
                     }
-                };
-                reader.readAsArrayBuffer(file);
-            } else {
-
+                } else { // If docx file
+                    const zip = new PizZip(reader.result); // Zip file
+                    const docFile = new Docxtemplater().loadZip(zip); // Load zipped docx file
+                    const text = docFile.getFullText(); // Extract text
+                    setUploadedFile(text);
+                }
             }
+            setFilename(file.name);
+            reader.readAsArrayBuffer(file);
         }
     }
 
