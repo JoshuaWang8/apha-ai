@@ -4,6 +4,7 @@ import FileUploader from './components/FileUploader';
 import { FileUploadOutput } from './components/FileUploadOutput';
 import { LoadingScreen } from './components/LoadingScreen';
 import Logo from './assets/apha-ai-logo.png';
+import Dictaphone from './components/VoiceToText';
 
 function App() {
     const [blobVisible, setBlobVisible] = useState(false);
@@ -38,6 +39,7 @@ function App() {
                     <img src={Logo} alt="Logo" className="App-logo" width='400' style={{ padding: '40px' }} />
                     <FileUploader onProcessingComplete={handleProcessingComplete} />
                     <FileUploadOutput filename={filename} results={fileResults} isVisible={blobVisible} />
+                    <Dictaphone/>
                 </header>
             )}
         </div>
