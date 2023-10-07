@@ -8,6 +8,7 @@ const FileUploader = ({ onProcessingComplete }) =>
 {
     const [filename, setFilename] = useState('');
     const [uploadedFile, setUploadedFile] = useState('');
+    const [keywords, setKeywords] = useState([]);
 
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
@@ -79,7 +80,45 @@ const FileUploader = ({ onProcessingComplete }) =>
         // Join the processed chunks
         const processedText = processedChunks.join(' ');
         const results = [processedText];
-        onProcessingComplete(filename, results);
+        findKeywords(processedText, 3);
+        onProcessingComplete(filename, results, keywords);
+    }
+
+    function findKeywords(inputText, threshold) {
+        // Preprocess text
+        const text = inputText
+            .toLowerCase()
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+            .split(' ');
+      
+        // Mapping of words to frequencies
+        const wordFrequency = {};
+        text.forEach( word => {
+            if (word in wordFrequency) {
+                wordFrequency[word]++;
+            } else {
+                wordFrequency[word] = 1;
+            }
+        });
+      
+        // Get keywords based on the threshold
+        const stopwords = [
+            "a", "an", "and", "the", "in", "of", "on", "at", "for", "to", "with", "by", "as", "but", "or", "not", "is", "it", "he",
+            "she", "you", "I","we", "they", "this", "that", "these", "those", "my", "your", "his", "her", "its", "our", "their",
+            "all", "any", "some", "many", "few", "more", "most", "much", "no", "none", "nor", "every", "each", "either", "neither",
+            "both", "such", "what", "which", "who", "whom", "whose", "why", "how", "where", "when", "wherever", "whenever",
+            "whether", "while", "before", "after", "during", "since", "until", "because", "although", "if", "unless", "since",
+            "while", "so", "be", "can"
+        ];
+          
+        const keywords = [];
+        for (const word in wordFrequency) {
+            if ((wordFrequency[word] >= threshold) && !(stopwords.includes(word))) {
+                keywords.push(word);
+            }
+        }
+      
+        setKeywords(keywords);
     }
 
     return (

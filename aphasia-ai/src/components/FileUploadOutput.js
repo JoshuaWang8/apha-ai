@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './FileUploadOutput.css'
 
-export const FileUploadOutput = ({ filename, results, isVisible }) => {
+export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => {
     const [readResults, setReadResults] = useState(false);
 
     const resetSpeech = () => {
@@ -28,6 +28,18 @@ export const FileUploadOutput = ({ filename, results, isVisible }) => {
         speechSynthesis.speak(utterance);
     }
 
+    const highlightKeywords = (results, keywords) => {
+        const words = results.split(/\s+/); // Split the text into words
+
+        // Check if a word is a keyword
+        const isKeyword = word => keywords.includes(word.toLowerCase());
+    
+        // Highlight words
+        return words.map((word, index) => (
+            isKeyword(word) ? <span><span key={index} className="highlighted">{word}</span> <span>{' '}</span></span>: word + ' '
+        ));
+    };
+
     return (
         <div className={`file-output-blob ${isVisible ? 'visible' : ''}`}>
             <button aria-label="Read results" className="sr-only" onClick={startSpeech}> Read Results </button>
@@ -41,7 +53,7 @@ export const FileUploadOutput = ({ filename, results, isVisible }) => {
                     <ul>
                         {results.map((result, index) => (                                               
                             <li key={index}>
-                                {result}
+                                {highlightKeywords(result, keywords)}
                             </li>
                         ))}       
                     </ul>                                     
