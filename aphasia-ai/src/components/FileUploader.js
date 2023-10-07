@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import { useRef } from 'react';
 import './FileUploader.css';
 import { getDocument } from 'pdfjs-dist/webpack';
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
 
-const FileUploader = ({ onProcessingComplete }) =>
-{
+const FileUploader = ({ onProcessingComplete }) => {
     const [filename, setFilename] = useState('');
     const [uploadedFile, setUploadedFile] = useState('');
+    const hiddenFileInput = useRef(null);
+
+    const handleFileUploadClick = event => {
+        hiddenFileInput.current.click();
+    };
 
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
@@ -19,7 +24,7 @@ const FileUploader = ({ onProcessingComplete }) =>
                 const fileNameSplit = file.name.split("."); // For getting file type
 
                 // Check file type to use correct file reader
-                if (fileNameSplit[fileNameSplit.length - 1] === "pdf"){
+                if (fileNameSplit[fileNameSplit.length - 1] === "pdf") {
                     try {
                         const pdfFile = await getDocument(arr).promise; // Get pdf file
                         let text = '';
@@ -31,7 +36,7 @@ const FileUploader = ({ onProcessingComplete }) =>
                             text += pageText + '\n';
                         }
                         setUploadedFile(text); // Set extracted text
-                        
+
                     } catch (error) {
                         console.error('Error reading PDF:', error);
                     }
@@ -47,22 +52,34 @@ const FileUploader = ({ onProcessingComplete }) =>
         }
     }
 
-    const handleFileProcessing = () =>
-    {
+    const handleFileProcessing = () => {
         // Process the file (just outputting raw input for now)
         const results = [uploadedFile];
         onProcessingComplete(filename, results);
     }
 
     return (
-        <div>
-            <div className='file-uploader-container'>
-                    <label htmlFor='file-input' className='file-input-label'>
-                        <div> Click to Upload </div>
-                        <input type="file" accept=".pdf, .docx" onChange={handleFileUpload} />
-                    </label>
-                </div>
-            <button onClick={handleFileProcessing}> Process File </button>
+        <div className='uploader-and-processer'>
+            <div className='file-upload'>
+                <button className="button-upload" onClick={handleFileUploadClick}>
+                    Upload File
+                </button>
+                <input
+                    type="file"
+                    accept=".pdf, .docx"
+                    onChange={handleFileUpload}
+                    ref={hiddenFileInput}
+                    style={{ display: 'none' }} // Make the file input element invisible
+                />
+                <label className='upload-file-name'>
+                    {filename}
+                </label>
+            </div>
+
+            {uploadedFile.length > 0 &&
+                (<div className='file-process'>
+                    <button className="button-process" onClick={handleFileProcessing}> Process File </button>
+                </div>)}
         </div>
     );
 };
