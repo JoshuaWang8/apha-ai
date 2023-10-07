@@ -1,0 +1,23 @@
+.instructions-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.upload-instruction,
+.summarise-instruction,
+.output-instruction {
+    background-color: rgb(245, 245, 222);
+    border-radius: 10px;
+    margin: 0px 5px;
+    color: black;
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 25px;
+}
+
+h2 {
+    font-size: 16px;
+}

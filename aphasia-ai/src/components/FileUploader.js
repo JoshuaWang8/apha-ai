@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useRef } from 'react';
-import './FileUploader.css';
 import { getDocument } from 'pdfjs-dist/webpack';
+import { MdOutlineFileUpload, MdOutlineSummarize } from 'react-icons/md';
+
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
+import './FileUploader.css';
 
 const FileUploader = ({ onProcessingComplete }) => {
     const [filename, setFilename] = useState('');
@@ -62,7 +64,7 @@ const FileUploader = ({ onProcessingComplete }) => {
         <div className='uploader-and-processer'>
             <div className='file-upload'>
                 <button className="button-upload" onClick={handleFileUploadClick}>
-                    Upload File
+                    Upload File <MdOutlineFileUpload />
                 </button>
                 <input
                     type="file"
@@ -78,7 +80,7 @@ const FileUploader = ({ onProcessingComplete }) => {
 
             {uploadedFile.length > 0 &&
                 (<div className='file-process'>
-                    <button className="button-process" onClick={handleFileProcessing}> Process File </button>
+                    <button className="button-process" onClick={handleFileProcessing}> Process File <MdOutlineSummarize /> </button>
                 </div>)}
         </div>
     );

@@ -4,6 +4,7 @@ import FileUploader from './components/FileUploader';
 import { FileUploadOutput } from './components/FileUploadOutput';
 import { LoadingScreen } from './components/LoadingScreen';
 import Logo from './assets/apha-ai-logo.png';
+import { Instructions } from './components/Instructions';
 
 function App() {
     const [blobVisible, setBlobVisible] = useState(false);
@@ -49,9 +50,15 @@ function App() {
             ) : (
                 <header className="App-header">
                     <img src={Logo} alt="Logo" className="App-logo" width='400' style={{ padding: '40px' }} />
-                    <button onClick={query}> Generate Response</button>
+                    {/* <button onClick={query}> Generate Response </button> */}
+                    <Instructions />
                     <FileUploader onProcessingComplete={handleProcessingComplete} />
                     <FileUploadOutput filename={filename} results={fileResults} isVisible={blobVisible} />
+                    <footer>
+                        <p>
+                            Disclaimer: This app provides information through translations for informational purposes only. Please be aware that the data used to train the model may contain biases. Use discretion and verify critical information independently. We do not guarantee accuracy or impartiality.
+                        </p>
+                    </footer>
                 </header>
             )}
         </div>

@@ -37,7 +37,7 @@ export const FileUploadOutput = ({ filename, results, isVisible }) => {
 
             {isVisible &&
                 <div>
-                    <p>File results for: {filename}</p>
+                    <p>Summarization For: {filename}</p>
                     {results.map((result, index) => (
                         <p key={index}>
                             {result}
