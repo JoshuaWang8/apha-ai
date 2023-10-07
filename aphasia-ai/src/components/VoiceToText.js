@@ -1,5 +1,5 @@
 import './VoiceToText.css'
-import React  from 'react';
+import React from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const Dictaphone = () => {
@@ -25,7 +25,7 @@ const Dictaphone = () => {
           value={transcript} // Use transcript as the initial value
           onChange={(e) => SpeechRecognition.abortListening()} // Disable speech recognition while editing
         />
-        <p style={{}}>Microphone: {listening ? 'on' : 'off'}
+        <p>Microphone: {listening ? 'on' : 'off'}
         <button className="button-reset" onClick={resetTranscript}>RESET</button>
         </p>
       </div>
