@@ -38,11 +38,13 @@ export const FileUploadOutput = ({ filename, results, isVisible }) => {
             {isVisible &&
                 <div>
                     <p>File results for: {filename}</p>
-                    {results.map((result, index) => (
-                        <p key={index}>
-                            {result}
-                        </p>
-                    ))}
+                    <ul>
+                        {results.map((result, index) => (                                               
+                            <li key={index}>
+                                {result}
+                            </li>
+                        ))}       
+                    </ul>                                     
                 </div>
             }
         </div>

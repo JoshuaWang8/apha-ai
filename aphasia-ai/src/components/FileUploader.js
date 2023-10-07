@@ -39,7 +39,8 @@ const FileUploader = ({ onProcessingComplete }) =>
                     const zip = new PizZip(reader.result); // Zip file
                     const docFile = new Docxtemplater().loadZip(zip); // Load zipped docx file
                     const text = docFile.getFullText(); // Extract text
-                    setUploadedFile(text);
+                    const formattedText = text.replace(/([.!?])(?!\d)/g, "$1 "); // Add spaces since reader squashes all sentences together
+                    setUploadedFile(formattedText);
                 }
             }
             setFilename(file.name);
@@ -47,10 +48,37 @@ const FileUploader = ({ onProcessingComplete }) =>
         }
     }
 
-    const handleFileProcessing = () =>
+    async function handleFileProcessing()
     {
-        // Process the file (just outputting raw input for now)
-        const results = [uploadedFile];
+        // Split the text into sentences
+        const textChunks = uploadedFile.split(/[.!?]+\s/).filter(Boolean);
+        const chunkSize = 5; // Set chunk size
+        const processedChunks = [];
+
+        for (let i = 0; i < textChunks.length; i += chunkSize) {
+            const chunk = textChunks.slice(i, i + chunkSize).join(' ');
+            try {
+                const response = await fetch(
+                    "https://api-inference.huggingface.co/models/VCInit/autotrain-aphasia-simplification-92527144747",
+                    {
+                        headers: { Authorization: "Bearer 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" },
+                        method: "POST",
+                        body: JSON.stringify({
+                            "inputs": chunk
+                        }),
+                    }
+                );
+
+                const result = await response.json();
+                processedChunks.push(result[0].summary_text);
+            } catch (error) {
+                console.error('Error processing chunk:', error);
+            }
+        }
+
+        // Join the processed chunks
+        const processedText = processedChunks.join(' ');
+        const results = [processedText];
         onProcessingComplete(filename, results);
     }
 
