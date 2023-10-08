@@ -44,9 +44,9 @@ function App() {
     return (
         <div className="App">
             {isLoading ? (
-                <div className='LoadingScreen'>
+                <header className='Loading-screen'>
                     <LoadingScreen />
-                </div>
+                </header>
             ) : (
                 <header className="App-header">
                     <img src={Logo} alt="Logo" className="App-logo" width='400' style={{ padding: '40px' }} />
