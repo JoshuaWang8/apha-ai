@@ -18,3 +18,18 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+.speech-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    margin: 0px 5px;
+    border-radius: 5px;
+    height: 40px;
+    background-color: lightgrey;
+    border: none;
+    cursor: pointer;
+}
