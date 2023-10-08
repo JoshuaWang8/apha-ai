@@ -19,7 +19,7 @@ export const FileUploadOutput = ({ filename, results, isVisible }) => {
     const startSpeech = (newSpeech) => {
         if (newSpeech) {
             const resultsText = results.join('. '); // Combine results into a single string
-            const utterance = new SpeechSynthesisUtterance(`File results for ${filename}: ${resultsText}`);
+            const utterance = new SpeechSynthesisUtterance(`Summarisation for ${filename}: ${resultsText}`);
             utterance.rate = 0.75;
 
             speechSynthesis.speak(utterance);
