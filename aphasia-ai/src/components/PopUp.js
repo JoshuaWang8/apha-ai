@@ -20,7 +20,7 @@ function Popup({ data, position }) {
       <p style={{ fontWeight: "bold" }}>{data.word}</p>
       {data.meanings && data.meanings[0] && data.meanings[0].definitions && (
         <>
-          <span>Definition:</span>
+          <span>Definition: </span>
           <span>{data.meanings[0].definitions[0].definition}</span>
         </>
       )}
