@@ -6,12 +6,12 @@ function Popup({ data, position }) {
     // If data is not available yet, return null or a loading indicator
     return null;
   }
-
+  console.log(position.x);
   // Calculate the position for the popup based on the click coordinates
   const popupStyle = {
     position: "absolute",
     top: `${position.y}px`,
-    left: `${position.x}px`,
+    left: position.y > 800 ? `${position.x}px` : `${position.x-150}px`,
     background: 'white',
   };
 
