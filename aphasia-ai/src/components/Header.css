@@ -1,0 +1,19 @@
+.header {
+    background-color: rgb(231, 221, 245);
+    display: flex;
+    height: 50px;
+    align-items: center;
+}
+
+h2 {
+    margin: 0px 10px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: #6417d0;
+}

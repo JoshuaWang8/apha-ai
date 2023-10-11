@@ -1,3 +1,8 @@
+.instruction-section-heading {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
 .instructions-container {
     display: flex;
     align-items: center;
@@ -11,7 +16,8 @@
     border-radius: 10px;
     margin: 0px 5px;
     color: black;
-    font-size: 16px;
+    font-size: 20px;
+    align-items: center;
 }
 
 h1 {
@@ -20,4 +26,10 @@ h1 {
 
 h2 {
     font-size: 16px;
+    text-align: center;
+}
+
+.summarise-instruction {
+    display: flex;
+    flex-direction: column;
 }

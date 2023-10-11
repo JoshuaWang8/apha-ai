@@ -2,12 +2,13 @@ import React from 'react';
 import { MdOutlineSummarize } from 'react-icons/md';
 import { LiaFileUploadSolid } from 'react-icons/lia';
 import { LuUpload, LuFileCog2, LuFileText, LuArrowRight } from 'react-icons/lu';
+import { Template } from './Template';
 
 import './Instructions.css'
 
 export const Instructions = () => {
     return (
-        <>
+        <Template>
             <div className='instruction-section-heading'>
                 <h1> How it Works? </h1>
             </div>
@@ -18,7 +19,7 @@ export const Instructions = () => {
                     </h2>
                     <LuUpload size={200} color='navy' />
                 </div>
-                <LuArrowRight />
+                <LuArrowRight color='white' />
                 <div className="summarise-instruction">
                     <h2>
                         We Summarise the file
@@ -26,7 +27,7 @@ export const Instructions = () => {
                     <LuFileCog2 size={200} color='navy' />
 
                 </div>
-                <LuArrowRight />
+                <LuArrowRight color='white' />
                 <div className="output-instruction">
                     <h2>
                         View Output
@@ -34,6 +35,6 @@ export const Instructions = () => {
                     <LuFileText size={200} color='navy' />
                 </div>
             </div>
-        </>
+        </Template>
     )
 }
