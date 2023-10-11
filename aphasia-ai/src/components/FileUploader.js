@@ -53,7 +53,7 @@ const FileUploader = ({ onProcessingComplete }) =>
     {
         // Split the text into sentences
         const textChunks = uploadedFile.split(/[.!?]+\s/).filter(Boolean);
-        const chunkSize = 5; // Set chunk size
+        const chunkSize = 25; // Set chunk size
         const processedChunks = [];
 
         for (let i = 0; i < textChunks.length; i += chunkSize) {
@@ -80,7 +80,8 @@ const FileUploader = ({ onProcessingComplete }) =>
         // Join the processed chunks
         const processedText = processedChunks.join(' ');
         const results = [processedText];
-        findKeywords(processedText, 3);
+        // Find keywords if it shows up in 2% of the document
+        findKeywords(processedText, Math.ceil((2 / 100) * processedText.split(/\s+/).length));
         onProcessingComplete(filename, results, keywords);
     }
 
