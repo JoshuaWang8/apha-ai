@@ -1,18 +1,24 @@
-.file-uploader-container {
+.uploader-and-processer {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border: 2px dashed #ddd;
-    border-radius: 8px;
+}
+
+.file-upload {
+    margin-bottom: 15px;
+}
+
+.button-upload,
+.button-process {
+    border-radius: 5px;
+    height: 40px;
+    background-color: rgb(245, 245, 222);
+    border: none;
     cursor: pointer;
 }
 
-.file-input-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+.upload-file-name {
+    margin-left: 10px;
+    font-size: 16px;
 }
