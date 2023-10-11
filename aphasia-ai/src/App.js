@@ -6,7 +6,7 @@ import { LoadingScreen } from './components/LoadingScreen';
 import Logo from './assets/apha-ai-logo.png';
 import Axios from "axios";
 import Popup from "./components/PopUp";
-import { Instructions } from './components/Instructions';
+import { Template } from './components/Template';
 
 function App() {
     const [blobVisible, setBlobVisible] = useState(false);
@@ -86,29 +86,24 @@ function App() {
         };
     }, [contextMenuVisible]);
     return (
-        <div className="App" onContextMenu={handleContextMenu}>
-            {isLoading ? (
-                <header className='Loading-screen'>
-                    <LoadingScreen />
-                </header>
-            ) : (
-                <header className="App-header">
-                    <img src={Logo} alt="Logo" className="App-logo" width='400' style={{ padding: '40px' }} />
-                    {/* <button onClick={query}> Generate Response </button> */}
-                    <Instructions />
-                    <FileUploader onProcessingComplete={handleProcessingComplete} />
-                    <FileUploadOutput filename={filename} results={fileResults} isVisible={blobVisible} keywords={keywords} />
-                    <footer>
-                        <p>
-                            Disclaimer: This app provides information through translations for informational purposes only. Please be aware that the data used to train the model may contain biases. Use discretion and verify critical information independently. We do not guarantee accuracy or impartiality.
-                        </p>
-                    </footer>
-                </header>
-            )}
-            {contextMenuVisible && (
-                <Popup data={data} position={contextMenuPosition} />
-            )}
-        </div>
+        <Template>
+            <div className="App" onContextMenu={handleContextMenu}>
+                {isLoading ? (
+                    <div className='Loading-screen'>
+                        <LoadingScreen />
+                    </div>
+                ) : (
+                    <div className="App-header">
+                        <img src={Logo} alt="Logo" className="App-logo" width='400' style={{ padding: '40px' }} />
+                        <FileUploader onProcessingComplete={handleProcessingComplete} />
+                        <FileUploadOutput filename={filename} results={fileResults} isVisible={blobVisible} keywords={keywords} />
+                    </div>
+                )}
+                {contextMenuVisible && (
+                    <Popup data={data} position={contextMenuPosition} />
+                )}
+            </div>
+        </Template>
     );
 }
 
