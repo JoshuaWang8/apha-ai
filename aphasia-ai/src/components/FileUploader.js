@@ -104,11 +104,11 @@ const FileUploader = ({ onProcessingComplete }) =>
         // Get keywords based on the threshold
         const stopwords = [
             "a", "an", "and", "the", "in", "of", "on", "at", "for", "to", "with", "by", "as", "but", "or", "not", "is", "it", "he",
-            "she", "you", "I","we", "they", "this", "that", "these", "those", "my", "your", "his", "her", "its", "our", "their",
+            "she", "you", "I", "we", "they", "this", "that", "these", "those", "my", "your", "his", "her", "its", "our", "their",
             "all", "any", "some", "many", "few", "more", "most", "much", "no", "none", "nor", "every", "each", "either", "neither",
             "both", "such", "what", "which", "who", "whom", "whose", "why", "how", "where", "when", "wherever", "whenever",
             "whether", "while", "before", "after", "during", "since", "until", "because", "although", "if", "unless", "since",
-            "while", "so", "be", "can"
+            "while", "so", "be", "can", "us", "also", "through", "was", "had"
         ];
           
         const keywords = [];
