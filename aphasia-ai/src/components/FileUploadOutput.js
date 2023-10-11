@@ -70,14 +70,21 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
     const handleContextMenu = (e) => {
         e.preventDefault();
         const selectedText = window.getSelection().toString();
-        if (selectedText) {
+        const fileOutputBlob = document.querySelector(".file-output-blob");
+    
+        if (selectedText && fileOutputBlob) {
+            const boundingBox = fileOutputBlob.getBoundingClientRect();
+            const verticalDistance = e.clientY - boundingBox.top;
+            const horizontalDistance = e.clientX - boundingBox.left;
             setSelectedWord(selectedText);
-            setContextMenuPosition({ x: e.clientX, y: e.clientY });
+            setContextMenuPosition({ x: horizontalDistance, y: verticalDistance });
             setContextMenuVisible(true);
         } else {
             setContextMenuVisible(false);
         }
     };
+    
+    
 
     const handleClosePopup = () => {
         setContextMenuVisible(false);
