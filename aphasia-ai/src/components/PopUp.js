@@ -7,11 +7,15 @@ function Popup({ data, position }) {
     return null;
   }
 
+  if(position.x>880){
+    position.x=880;
+  }
+
   // Calculate the position for the popup based on the click coordinates
   const popupStyle = {
     position: "absolute",
     top: `${position.y}px`,
-    left: `${position.x}px`,
+    left:`${position.x}px`,
     background: 'white',
   };
 
