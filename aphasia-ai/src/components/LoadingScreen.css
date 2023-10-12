@@ -9,7 +9,7 @@
     justify-content: center;
 }
 
-.react-logo {
+.apha-logo {
     display: inline-block;
     border-radius: 50%;
     border: 10px solid rgb(245, 245, 222);
@@ -20,9 +20,9 @@
     animation-timing-function: linear;
 }
 
-.react-logo,
-.react-logo:before,
-.react-logo:after {
+.apha-logo,
+.apha-logo:before,
+.apha-logo:after {
     position: absolute;
     display: inline-block;
     width: 200px;
@@ -31,32 +31,24 @@
     border: 10px solid rgb(245, 245, 222);
 }
 
-.nucleo,
-.react-logo,
-.react-logo:before,
-.react-logo:after {
+.apha-logo,
+.apha-logo:before,
+.apha-logo:after {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.nucleo {
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
-    background: rgb(245, 245, 222);
-}
-
-.react-logo:before,
-.react-logo:after {
+.apha-logo:before,
+.apha-logo:after {
     content: "";
 }
 
-.react-logo:after {
+.apha-logo:after {
     transform: rotate(-57deg);
 }
 
-.react-logo:before {
+.apha-logo:before {
     transform: rotate(57deg);
 }
 

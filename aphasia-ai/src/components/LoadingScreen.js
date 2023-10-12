@@ -6,9 +6,7 @@ export const LoadingScreen = () => {
     return (
         <>
             <div class="container">
-                <span class="react-logo">
-                    <span class="nucleo"></span>
-                </span>
+                <span class="apha-logo" />
             </div>
 
             <p class="title">Welcome to apha.ai</p>
