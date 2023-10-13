@@ -37,7 +37,7 @@ apha.ai leverages natural language processing models and algorithms to perform t
 
 The pipeline used by apha.ai to process text is secure and does not save user data at any point in the process. The machine learning model implemented is used only for inference and is not trained on any inputted user data.
 
-## Project Dependencies
+## Project Dependencies and Requirements
 ### Libraries
 apha.ai makes use of multiple open-source libraries:
 - PDF.js
@@ -52,6 +52,17 @@ The following APIs are also used by apha.ai to provide certain functionality:
 - HuggingFace API
 - SpeechSynthesisUtterance API
 - Dictionary API
+
+### Browser Support
+For the voice-to-text feature to work, a compatible browser which supports Web Speech API is required. According to the React Speech Recognition Library [[Reference 6]](#references), the following browsers are supported as of May 2021:
+- Chrome (desktop)
+- Safari 14.1
+- Microsoft Edge
+- Chrome (Android)
+- Android webview
+- Samsung Internet
+
+It is recommended that users use one of the above browsers. The voice-to-text feature cannot be used on any other browsers, though all other features will remain functional.
 
 ## Repository Overview
 ```
