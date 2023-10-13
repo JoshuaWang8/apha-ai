@@ -18,7 +18,7 @@ const VoiceToText = () => {
   return (
     <div className="voiceContainer">
       <div className="search-box">
-        <button className="btn-search" onClick={listening ? SpeechRecognition.stopListening : Sta}></button>
+        <button className="btn-search" onClick={listening ? SpeechRecognition.stopListening : Start}></button>
         <input
           type="text"
           className={`input-search ${transcript ? 'expanded' : ''}`}
