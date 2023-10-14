@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useRef } from 'react';
 import { getDocument } from 'pdfjs-dist/webpack';
 import { MdOutlineFileUpload, MdOutlineSummarize, MdOutlineClear } from 'react-icons/md';
-
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
 import './FileUploader.css';
@@ -57,6 +56,11 @@ const FileUploader = ({ onProcessingComplete }) => {
     }
 
     async function handleFileProcessing() {
+        // Split text into sections
+        const sections = splitTextIntoSections(uploadedFile);
+
+        // TODO: PROCESS EACH SECTION
+
         // Split the text into sentences
         const textChunks = uploadedFile.split(/[.!?]+\s/).filter(Boolean);
         const chunkSize = 25; // Set chunk size
@@ -91,11 +95,121 @@ const FileUploader = ({ onProcessingComplete }) => {
         onProcessingComplete(filename, results, keywords);
     }
 
+    function splitTextIntoSections(rawText) {
+        // Define common headings found in research papers
+        const sectionHeaders = ['Abstract', 'Introduction', 'Literature', 'Literature Review', 'Methodology', 'Method', 'Data', 'Results', 'Discussion', 'Conclusion', 'Recommendations', 'Acknowledgments', 'Author Contributions', 'References', 'Appendices', 'Figures and Tables'];
+        const usedSections = [];
+        let usingUsedSection = false;
+
+        // Extract sections if the input is a research paper
+        if (isResearchPaper(rawText)) {
+            const sections = [];
+            let currentSection = '';
+            let currentSectionContent = '';
+            let referencesReached = false;
+
+            // Split the raw text into lines
+            const lines = rawText.split(/(?<=[.])/g);
+
+            // Iterate through the lines
+            lines.forEach(line => {
+                const lineTrimmed = line.trim();
+
+                if (!referencesReached) { // Stop parsing if already reached references
+                    // Check if we have found a new section
+                    const matchingSectionHeader = sectionHeaders.find(header => line.includes(header));
+
+                    // Add same sections but with different names
+                    if (
+                        ((matchingSectionHeader === 'Method') || (matchingSectionHeader === 'Methodology'))
+                        && !usedSections.includes(matchingSectionHeader)
+                    ) {
+                        usedSections.push('Method');
+                        usedSections.push('Methodology');
+                        usingUsedSection = true;
+                    }
+                    if (
+                        ((matchingSectionHeader === 'Literature') || (matchingSectionHeader === 'Literature Review'))
+                        && !usedSections.includes(matchingSectionHeader)
+                    ) {
+                        usedSections.push('Literature');
+                        usedSections.push('Literature Review');
+                        usingUsedSection = true;
+                    }
+
+                    // Check if the line matches a section header
+                    if (
+                        matchingSectionHeader 
+                        && !sections.some(section => section.title === matchingSectionHeader)
+                        && currentSection !== matchingSectionHeader
+                        && (!usedSections.includes(matchingSectionHeader) || usingUsedSection)
+                    ) {
+                        if (lineTrimmed.includes('References') || lineTrimmed.includes('Acknowledgements')) {
+                            referencesReached = true; // Set the flag when "References" is reached
+                        } else {
+                            // If there's content in the current section, save it
+                            if (currentSectionContent !== '') {
+                                sections.push({
+                                    title: currentSection,
+                                    content: currentSectionContent
+                                });
+                            }
+
+                            // Start a new section
+                            currentSection = matchingSectionHeader;
+                            currentSectionContent = lineTrimmed.replace(matchingSectionHeader, '').trim();
+                            usingUsedSection = false;
+                        }
+                    } else {
+                        // Append the line to the current section's content
+                        currentSectionContent += line;
+                    }
+                }
+            });
+
+            // Add the last section if it has content
+            if (currentSectionContent) {
+                sections.push({
+                title: currentSection,
+                content: currentSectionContent
+                });
+            }
+            return sections;
+        }
+        return [{title: "none", content: rawText}];
+    }
+
+    function isResearchPaper(text) {
+        // Convert text to lowercase for case-insensitive matching
+        const lowercaseText = text.toLowerCase();
+      
+        // Check for the presence of common section headers
+        const sections = ['abstract', 'introduction', 'literature', 'literature review', 'methodology', 'method', 'data', 'results', 'discussion', 'conclusion', 'recommendations', 'acknowledgments', 'author contributions', 'references', 'appendices', 'figures and tables'];
+
+        // Count number of found headings
+        let headings = 0;
+        for (const header of sections) {
+            if (lowercaseText.includes(header)) {
+                headings++;
+            }
+            if (headings >=4) {
+                break;
+            }
+        }
+
+        // Check for the presence of citations and a references section
+        const hasCitations = /\(\d{4}\)/.test(text);
+        const hasReferences = lowercaseText.includes("references");
+      
+        // Combine all checks
+        return headings >= 4 && (hasCitations || hasReferences);
+    }
+    
     function findKeywords(inputText, threshold) {
         // Preprocess text
         const text = inputText
             .toLowerCase()
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+            .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, '')
             .split(' ');
 
         // Mapping of words to frequencies
@@ -115,7 +229,7 @@ const FileUploader = ({ onProcessingComplete }) => {
             "all", "any", "some", "many", "few", "more", "most", "much", "no", "none", "nor", "every", "each", "either", "neither",
             "both", "such", "what", "which", "who", "whom", "whose", "why", "how", "where", "when", "wherever", "whenever",
             "whether", "while", "before", "after", "during", "since", "until", "because", "although", "if", "unless", "since",
-            "while", "so", "be", "can", "us", "also", "through", "was", "had"
+            "while", "so", "be", "can", "us", "also", "through", "was", "had", "were"
         ];
 
         const keywords = [];
