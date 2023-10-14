@@ -1,106 +1,25 @@
-.voiceContainer{
-    width: 500px;
-  }
-  .search-box {
-    width: fit-content;
-    height: fit-content;
-    position: relative;
-    display: inline-block;
-  }
-  .input-search {
-    height: 50px;
-    width: 50px;
-    border-style: none;
-    padding: 10px;
-    font-size: 18px;
-    letter-spacing: 2px;
-    outline: none;
-    border-radius: 25px;
-    background-color: transparent;
-    padding-right: 40px;
-    color: #000000;
-    transition: width 0.5s ease-in-out; /* Add transition for width property */
-  }
-  .input-search::placeholder{
-    color:rgb(0, 0, 0);
-    font-size: 18px;
-    letter-spacing: 2px;
-    font-weight: 100;
-  }
-  .btn-search {
-    width: 50px;
-    height: 50px;
-    border-style: none;
-    font-size: 20px;
-    font-weight: bold;
-    outline: none;
-    cursor: pointer;
-    border-radius: 50%;
-    position: absolute;
-    right: 0;
-    background-image: url("https://police.un.org/sites/default/files/radio-microphone.png");
-    background-color: transparent;
-    background-size: cover;
-    pointer-events: painted;
-    transition: right 0.5s ease-in-out; /* Add transition for right property */
-  }
-  .btn-search:focus ~ .input-search{
-    width: 300px;
-    border-radius: 0px;
-    background-color: transparent;
-    border-bottom:1px solid rgb(255, 255, 255);
-    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-  }
-  .input-search:focus{
-    width: 300px;
-    border-radius: 0px;
-    background-color: transparent;
-    border-bottom:1px solid rgb(255, 255, 255);
-    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-  }
-  
-  .button-reset{
-    align-items: center;
-    appearance: none;
-    background-color: #FCFCFD;
-    border-radius: 4px;
-    border-width: 0;
-    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-    box-sizing: border-box;
-    color: #36395A;
-    cursor: pointer;
-    display: inline-flex;
-    font-family: "JetBrains Mono",monospace;
-    height: 40px;
-    width: 60px;
-    justify-content: center;
-    line-height: 1;
-    list-style: none;
-    overflow: hidden;
-    padding-left: 14px;
-    padding-right: 14px;
-    position: relative;
-    text-align: left;
-    text-decoration: none;
-    transition: box-shadow .15s,transform .15s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-    will-change: box-shadow,transform;
+.voice-input-container {
+    display: flex;
+    margin: 10px 0px;
+}
+
+.listen-action,
+.reset-action {
+    margin: 0px 10px;
     font-size: 16px;
-  }
-  .button-reset:focus {
-    box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-  }
-  
-  .button-reset:hover {
-    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-    transform: translateY(-2px);
-  }
-  
-  .button-reset:active {
-    box-shadow: #D6D6E7 0 3px 7px inset;
-    transform: translateY(2px);
-  }
-  
+}
+
+.process-action {
+    margin-left: 0px;
+    font-size: 16px;
+}
+
+.listen-action,
+.process-action,
+.reset-action {
+    border-radius: 5px;
+    height: 40px;
+    background-color: rgb(245, 245, 222);
+    border: none;
+    cursor: pointer;
+}

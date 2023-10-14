@@ -40,7 +40,8 @@ function App() {
                     <div className="App-header">
                         <img src={Logo} alt="Logo" className="App-logo" width='400' style={{ padding: '40px' }} />
                         <FileUploader onProcessingComplete={handleProcessingComplete} />
-                        <VoiceToText/>
+                        <span> or </span>
+                        <VoiceToText onVoiceInput={handleProcessingComplete} />
                         <FileUploadOutput filename={filename} results={fileResults} isVisible={blobVisible} keywords={keywords} />
                     </div>
                 )}

@@ -1,12 +1,8 @@
 .uploader-and-processer {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-}
-
-.file-upload {
-    margin-bottom: 15px;
+    margin: 10px 0px;
 }
 
 .button-upload,
@@ -16,6 +12,11 @@
     background-color: rgb(245, 245, 222);
     border: none;
     cursor: pointer;
+    font-size: 16px;
+}
+
+.button-process {
+    margin-left: 15px;
 }
 
 .upload-file-name {

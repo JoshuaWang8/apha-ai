@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRef } from 'react';
 import { getDocument } from 'pdfjs-dist/webpack';
-import { MdOutlineFileUpload, MdOutlineSummarize } from 'react-icons/md';
+import { MdOutlineFileUpload, MdOutlineSummarize, MdOutlineClear } from 'react-icons/md';
 
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
@@ -128,6 +128,13 @@ const FileUploader = ({ onProcessingComplete }) => {
         setKeywords(keywords);
     }
 
+    function handleFileClear() {
+        setFilename('');
+        setUploadedFile('')
+        setKeywords([])
+        onProcessingComplete('', [], []);
+    }
+
     return (
         <div className='uploader-and-processer'>
             <div className='file-upload'>
@@ -148,6 +155,7 @@ const FileUploader = ({ onProcessingComplete }) => {
 
             {uploadedFile.length > 0 &&
                 (<div className='file-process'>
+                    <button className="button-process" onClick={handleFileClear}> Clear File <MdOutlineClear /> </button>
                     <button className="button-process" onClick={handleFileProcessing}> Process File <MdOutlineSummarize /> </button>
                 </div>)}
         </div>
