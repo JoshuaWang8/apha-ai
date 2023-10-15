@@ -14,7 +14,7 @@ const VoiceToText = ({ onVoiceInput }) => {
         browserSupportsSpeechRecognition
     } = useSpeechRecognition();
 
-    async function handeVoiceProcessing() {
+    async function handleVoiceProcessing() {
         // Split the text into sentences
         const textChunks = transcript.split(/[.!?]+\s/).filter(Boolean);
         const chunkSize = 25; // Set chunk size
@@ -79,7 +79,7 @@ const VoiceToText = ({ onVoiceInput }) => {
                 {transcript &&
                     <>
                         <button className='reset-action' onClick={handleVoiceReset}> Reset Input <GrPowerReset /> </button>
-                        <button className='process-action' onClick={handeVoiceProcessing}> Process Input <MdOutlineSummarize /> </button>
+                        <button className='process-action' onClick={handleVoiceProcessing}> Process Input <MdOutlineSummarize /> </button>
                     </>
                 }
             </div>
