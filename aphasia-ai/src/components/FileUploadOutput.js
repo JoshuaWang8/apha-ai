@@ -26,7 +26,6 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
     const startSpeech = (newSpeech) => {
         if (newSpeech) {
             const resultsText = results.map(section => `${section.title} ${section.content}`).join(' ');
-            console.log(resultsText);
 
             const utterance = new SpeechSynthesisUtterance(`Summarisation for ${filename}: ${resultsText}`);
             utterance.rate = 0.75;
@@ -43,26 +42,26 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
 
     const formatResults = (results, keywords) => {
         const contentSentences = results['content'].split(/\. (?![0-9])/);
-        console.log(contentSentences);
+        const isKeyword = word => keywords.includes(word.toLowerCase());
+
         return (
             <div>
                 <h3 className='summary-title'>{results['title']}</h3>
                 <ul>
                     {contentSentences.map((sentence, index) => (
-                        <li className='summary-point' key={index}>{sentence}</li>
+                        <li className='summary-point' key={index}>
+                            {sentence.split(/\s+/).map((word, wordIndex) => (
+                                isKeyword(word) ? (
+                                    <span className="highlighted" key={wordIndex}>{word} </span>
+                                ) : (
+                                    word + ' '
+                                )
+                            ))}
+                        </li>
                     ))}
                 </ul>
             </div>
         );
-        // const words = results['content'].split(/\s+/); // Split the text into words
-
-        // // Check if a word is a keyword
-        // const isKeyword = word => keywords.includes(word.toLowerCase());
-
-        // // Highlight words
-        // return words.map((word, index) => (
-        //     isKeyword(word) ? <span><span key={index} className="highlighted">{word}</span> <span>{' '}</span></span> : word + ' '
-        // ));
     };
 
     useEffect(() => {
