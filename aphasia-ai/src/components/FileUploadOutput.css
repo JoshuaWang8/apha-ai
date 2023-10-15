@@ -37,3 +37,8 @@ button {
     border: none;
     cursor: pointer;
 }
+
+.summary-point,
+.summary-title {
+    text-align: left;
+}

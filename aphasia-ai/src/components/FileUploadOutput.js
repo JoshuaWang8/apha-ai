@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FileUploadOutput.css';
 import '../App.css';
 import Axios from "axios";
@@ -44,10 +44,10 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
         console.log(contentSentences);
         return (
             <div>
-                <h3>{results['title']}</h3>
+                <h3 className='summary-title'>{results['title']}</h3>
                 <ul>
                     {contentSentences.map((sentence, index) => (
-                        <li key={index}>{sentence}</li>
+                        <li className='summary-point' key={index}>{sentence}</li>
                     ))}
                 </ul>
             </div>
@@ -84,7 +84,7 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
         e.preventDefault();
         const selectedText = window.getSelection().toString();
         const fileOutputBlob = document.querySelector(".file-output-blob");
-    
+
         if (selectedText && fileOutputBlob) {
             const boundingBox = fileOutputBlob.getBoundingClientRect();
             const verticalDistance = e.clientY - boundingBox.top;
@@ -148,7 +148,7 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
                     </ul>
                 </div>
             }
-                        {contextMenuVisible && (
+            {contextMenuVisible && (
                 <Popup data={data} position={contextMenuPosition} />
             )}
         </div>
