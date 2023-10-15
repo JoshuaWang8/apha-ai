@@ -59,40 +59,42 @@ const FileUploader = ({ onProcessingComplete }) => {
         // Split text into sections
         const sections = splitTextIntoSections(uploadedFile);
 
-        // TODO: PROCESS EACH SECTION
+        // Process each section
+        for (let i = 0; i < sections.length; i++) {
+            // Split the text into sentences
+            const textChunks = sections[i]['content'].split(/[.!?]+\s/).filter(Boolean);
+            const chunkSize = 25; // Set chunk size
+            const processedChunks = [];
 
-        // Split the text into sentences
-        const textChunks = uploadedFile.split(/[.!?]+\s/).filter(Boolean);
-        const chunkSize = 25; // Set chunk size
-        const processedChunks = [];
+            for (let i = 0; i < textChunks.length; i += chunkSize) {
+                const chunk = textChunks.slice(i, i + chunkSize).join(' ');
+                try {
+                    const response = await fetch(
+                        "https://api-inference.huggingface.co/models/VCInit/autotrain-aphasia-simplification-92527144747",
+                        {
+                            headers: { Authorization: "Bearer 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" },
+                            method: "POST",
+                            body: JSON.stringify({
+                                "inputs": chunk
+                            }),
+                        }
+                    );
 
-        for (let i = 0; i < textChunks.length; i += chunkSize) {
-            const chunk = textChunks.slice(i, i + chunkSize).join(' ');
-            try {
-                const response = await fetch(
-                    "https://api-inference.huggingface.co/models/VCInit/autotrain-aphasia-simplification-92527144747",
-                    {
-                        headers: { Authorization: "Bearer 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" },
-                        method: "POST",
-                        body: JSON.stringify({
-                            "inputs": chunk
-                        }),
-                    }
-                );
-
-                const result = await response.json();
-                processedChunks.push(result[0].summary_text);
-            } catch (error) {
-                console.error('Error processing chunk:', error);
+                    const result = await response.json();
+                    processedChunks.push(result[0].summary_text);
+                } catch (error) {
+                    console.error('Error processing chunk:', error);
+                }
             }
-        }
 
-        // Join the processed chunks
-        const processedText = processedChunks.join(' ');
-        const results = [processedText];
+            // Join the processed chunks
+            const processedText = processedChunks.join(' ');
+            sections[i]['content'] = processedText;
+        }
+        
         // Find keywords if it shows up in 2% of the document
-        findKeywords(processedText, Math.ceil((2 / 100) * processedText.split(/\s+/).length));
-        onProcessingComplete(filename, results, keywords);
+        // findKeywords(processedText, Math.ceil((2 / 100) * processedText.split(/\s+/).length));
+        onProcessingComplete(filename, sections, keywords);
     }
 
     function splitTextIntoSections(rawText) {
@@ -238,7 +240,7 @@ const FileUploader = ({ onProcessingComplete }) => {
                 keywords.push(word);
             }
         }
-
+        
         setKeywords(keywords);
     }
 

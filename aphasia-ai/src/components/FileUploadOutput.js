@@ -39,17 +39,30 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
         }
     }
 
-    const highlightKeywords = (results, keywords) => {
-        const words = results.split(/\s+/); // Split the text into words
+    const formatResults = (results, keywords) => {
+        const contentSentences = results['content'].split(/(?<=[.])/g);
+        console.log(contentSentences);
+        return (
+            <div>
+                <h3>{results['title']}</h3>
+                <ul>
+                    {contentSentences.map((sentence, index) => (
+                        <li key={index}>{sentence}</li>
+                    ))}
+                </ul>
+            </div>
+        );
+        // const words = results['content'].split(/\s+/); // Split the text into words
 
-        // Check if a word is a keyword
-        const isKeyword = word => keywords.includes(word.toLowerCase());
+        // // Check if a word is a keyword
+        // const isKeyword = word => keywords.includes(word.toLowerCase());
 
-        // Highlight words
-        return words.map((word, index) => (
-            isKeyword(word) ? <span><span key={index} className="highlighted">{word}</span> <span>{' '}</span></span> : word + ' '
-        ));
+        // // Highlight words
+        // return words.map((word, index) => (
+        //     isKeyword(word) ? <span><span key={index} className="highlighted">{word}</span> <span>{' '}</span></span> : word + ' '
+        // ));
     };
+
     useEffect(() => {
         const fetchData = async () => {
             if (selectedWord && contextMenuVisible) {
@@ -83,8 +96,6 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
             setContextMenuVisible(false);
         }
     };
-    
-    
 
     const handleClosePopup = () => {
         setContextMenuVisible(false);
@@ -107,6 +118,7 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
             document.removeEventListener("click", handleDocumentClick);
         };
     }, [contextMenuVisible]);
+
     return (
         <div className={`file-output-blob ${isVisible ? 'visible' : ''}`} onContextMenu={handleContextMenu}>
             {!readResults ? (
@@ -130,7 +142,7 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
                     <ul>
                         {results.map((result, index) => (
                             <li key={index}>
-                                {highlightKeywords(result, keywords)}
+                                {formatResults(result, keywords)}
                             </li>
                         ))}
                     </ul>
