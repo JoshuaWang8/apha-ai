@@ -42,7 +42,7 @@ export const FileUploadOutput = ({ filename, results, isVisible, keywords }) => 
     }
 
     const formatResults = (results, keywords) => {
-        const contentSentences = results['content'].split(/(?<=[.])/g);
+        const contentSentences = results['content'].split(/\. (?![0-9])/);
         console.log(contentSentences);
         return (
             <div>
