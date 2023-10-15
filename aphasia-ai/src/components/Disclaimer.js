@@ -17,13 +17,16 @@ export const Disclaimer = () => {
                         </h2>
                         <ul>
                             <li>
-                                Accuracy: Summaries may not always be completely accurate or reliable.
+                                Summaries may not always be completely accurate or reliable.
                             </li>
                             <li>
-                                Bias: The summaries may have biases or be insensitive.
+                                The summaries may have biases or be insensitive.
                             </li>
                             <li>
-                                Complementary Tool: This app is intended as a complementary tool and should not replace professional advice or treatment.
+                                This app is intended as a complementary tool and should not replace professional advice or treatment.
+                            </li>
+                            <li>
+                                apha.ai does not store any of the uploaded information. The machine learning model is also not trained on any of the uploaded information.
                             </li>
                         </ul>
                     </div>
