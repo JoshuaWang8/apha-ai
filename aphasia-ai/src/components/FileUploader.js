@@ -248,7 +248,7 @@ const FileUploader = ({ onProcessingComplete }) => {
         let i = 0;
         const keywordsToHighlight = [];
 
-        while (keywordCount < (keywords.length)*20/100) {
+        while (keywordCount < (keywords.length)*10/100) {
             if (!stopwords.includes(keywords[i]['term'])) {
                 keywordsToHighlight.push(keywords[i]['term']);
                 keywordCount++;
