@@ -58,6 +58,7 @@ const FileUploader = ({ onProcessingComplete }) => {
     async function handleFileProcessing() {
         // Split text into sections
         const sections = splitTextIntoSections(uploadedFile);
+        let fullText = '';
 
         // Process each section
         for (let i = 0; i < sections.length; i++) {
@@ -89,11 +90,12 @@ const FileUploader = ({ onProcessingComplete }) => {
 
             // Join the processed chunks
             const processedText = processedChunks.join(' ');
+            fullText += processedText.toLowerCase().replace(/[[(.,][^\]).,]*[\]).,]/g, '') + ' ';
             sections[i]['content'] = processedText;
         }
         
         // Find keywords if it shows up in 2% of the document
-        // findKeywords(processedText, Math.ceil((2 / 100) * processedText.split(/\s+/).length));
+        findKeywords(fullText);
         onProcessingComplete(filename, sections, keywords);
     }
 
@@ -141,7 +143,7 @@ const FileUploader = ({ onProcessingComplete }) => {
 
                     // Check if the line matches a section header
                     if (
-                        matchingSectionHeader 
+                        matchingSectionHeader
                         && !sections.some(section => section.title === matchingSectionHeader)
                         && currentSection !== matchingSectionHeader
                         && (!usedSections.includes(matchingSectionHeader) || usingUsedSection)
@@ -156,7 +158,7 @@ const FileUploader = ({ onProcessingComplete }) => {
                                     content: currentSectionContent
                                 });
                             }
-
+    
                             // Start a new section
                             currentSection = matchingSectionHeader;
                             currentSectionContent = lineTrimmed.replace(matchingSectionHeader, '').trim();
@@ -178,7 +180,7 @@ const FileUploader = ({ onProcessingComplete }) => {
             }
             return sections;
         }
-        return [{title: "none", content: rawText}];
+        return [{title: '', content: rawText}];
     }
 
     function isResearchPaper(text) {
@@ -207,22 +209,30 @@ const FileUploader = ({ onProcessingComplete }) => {
         return headings >= 4 && (hasCitations || hasReferences);
     }
     
-    function findKeywords(inputText, threshold) {
-        // Preprocess text
-        const text = inputText
-            .toLowerCase()
-            .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, '')
-            .split(' ');
-
-        // Mapping of words to frequencies
-        const wordFrequency = {};
-        text.forEach(word => {
-            if (word in wordFrequency) {
-                wordFrequency[word]++;
-            } else {
-                wordFrequency[word] = 1;
-            }
+    function findKeywords(inputText) {
+        // Tokenize the text into terms (words or phrases)
+        const terms = inputText.split(/\s+/);
+        
+        // Calculate Term Frequency (TF) for each term
+        const termFrequency = {};
+        terms.forEach(term => {
+            termFrequency[term] = (termFrequency[term] || 0) + 1;
         });
+        
+        // Calculate Inverse Document Frequency (IDF)
+        const inverseDocumentFrequency = {};
+        terms.forEach(term => {
+            inverseDocumentFrequency[term] = Math.log(terms.length / (terms.filter(element => element === term).length + 1));
+        });
+        
+        // Calculate TF-IDF score for each term
+        const keywords = Object.keys(termFrequency).map(term => ({
+            term,
+            tfidf: termFrequency[term] * inverseDocumentFrequency[term],
+        }));
+        
+        // Sort keywords by TF-IDF score
+        keywords.sort((a, b) => b.tfidf - a.tfidf);
 
         // Get keywords based on the threshold
         const stopwords = [
@@ -231,17 +241,21 @@ const FileUploader = ({ onProcessingComplete }) => {
             "all", "any", "some", "many", "few", "more", "most", "much", "no", "none", "nor", "every", "each", "either", "neither",
             "both", "such", "what", "which", "who", "whom", "whose", "why", "how", "where", "when", "wherever", "whenever",
             "whether", "while", "before", "after", "during", "since", "until", "because", "although", "if", "unless", "since",
-            "while", "so", "be", "can", "us", "also", "through", "was", "had", "were"
+            "while", "so", "be", "can", "us", "also", "through", "was", "had", "were", "about", "here", "are", "has"
         ];
 
-        const keywords = [];
-        for (const word in wordFrequency) {
-            if ((wordFrequency[word] >= threshold) && !(stopwords.includes(word))) {
-                keywords.push(word);
+        let keywordCount = 0;
+        let i = 0;
+        const keywordsToHighlight = [];
+
+        while (keywordCount < (keywords.length)*20/100) {
+            if (!stopwords.includes(keywords[i]['term'])) {
+                keywordsToHighlight.push(keywords[i]['term']);
+                keywordCount++;
             }
+            i++;
         }
-        
-        setKeywords(keywords);
+        setKeywords(keywordsToHighlight);
     }
 
     function handleFileClear() {
