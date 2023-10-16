@@ -38,7 +38,12 @@ button {
     cursor: pointer;
 }
 
-.summary-point,
 .summary-title {
     text-align: left;
+}
+
+.summary-point {
+    text-align: left;
+    padding-bottom: 2%;
+    line-height: 170%;
 }
