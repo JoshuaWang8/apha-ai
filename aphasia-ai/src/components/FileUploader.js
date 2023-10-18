@@ -51,6 +51,7 @@ const FileUploader = ({ onProcessingComplete }) => {
                     setUploadedFile(formattedText);
                 }
             }
+            setOnFileProcessClicked(false);
             setFilename(file.name);
             reader.readAsArrayBuffer(file);
         }
