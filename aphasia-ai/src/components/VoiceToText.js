@@ -43,7 +43,7 @@ const VoiceToText = ({ onVoiceInput }) => {
 
         // Join the processed chunks
         const processedText = processedChunks.join(' ');
-        const results = [{title: '', content: processedText}];
+        const results = [{ title: '', content: processedText }];
 
         const keywords = findKeywords(processedText);
         onVoiceInput("voice input", results, keywords);
@@ -52,25 +52,25 @@ const VoiceToText = ({ onVoiceInput }) => {
     function findKeywords(inputText) {
         // Tokenize the text into terms (words or phrases)
         const terms = inputText.split(/\s+/);
-        
+
         // Calculate Term Frequency (TF) for each term
         const termFrequency = {};
         terms.forEach(term => {
             termFrequency[term] = (termFrequency[term] || 0) + 1;
         });
-        
+
         // Calculate Inverse Document Frequency (IDF)
         const inverseDocumentFrequency = {};
         terms.forEach(term => {
             inverseDocumentFrequency[term] = Math.log(terms.length / (terms.filter(element => element === term).length + 1));
         });
-        
+
         // Calculate TF-IDF score for each term
         const keywords = Object.keys(termFrequency).map(term => ({
             term,
             tfidf: termFrequency[term] * inverseDocumentFrequency[term],
         }));
-        
+
         // Sort keywords by TF-IDF score
         keywords.sort((a, b) => b.tfidf - a.tfidf);
 
@@ -88,7 +88,7 @@ const VoiceToText = ({ onVoiceInput }) => {
         let i = 0;
         const keywordsToHighlight = [];
 
-        while (keywordCount < (keywords.length)*10/100) {
+        while (keywordCount < (keywords.length) * 10 / 100) {
             if (!stopwords.includes(keywords[i]['term'])) {
                 keywordsToHighlight.push(keywords[i]['term']);
                 keywordCount++;
@@ -111,7 +111,7 @@ const VoiceToText = ({ onVoiceInput }) => {
         <div className="voice-input-container">
             <div className="input-actions">
                 <button className="listen-action" onClick={listening ? SpeechRecognition.stopListening : Start}>
-                    {listening ? 'Stop Listening' : 'Start Listening'} <MdSettingsVoice />
+                    {listening ? 'Stop Listening' : 'Voice Assistance'} <MdSettingsVoice />
                 </button>
 
                 {listening &&
