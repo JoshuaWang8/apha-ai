@@ -3,6 +3,7 @@ import { MdOutlineSummarize } from 'react-icons/md';
 import { LiaFileUploadSolid } from 'react-icons/lia';
 import { LuUpload, LuFileCog2, LuFileText, LuArrowRight } from 'react-icons/lu';
 import { Template } from './Template';
+import Instruction from '../assets/Instructions-img.png';
 
 import './Instructions.css'
 
@@ -46,6 +47,10 @@ export const Instructions = () => {
                         <l1 className='feature-name'> <span className='feature-title'> Voice Assistance: </span>  press voice assistance button to start listening to speech for summarisation </l1>
                         <l1 className='feature-name'> <span className='feature-title'> Text-to-Voice: </span> press read results to listen to the output summary </l1>
                     </ul>
+
+                    <div className='feature-img'>
+                        <img src={Instruction} width='900px' style={{ padding: '10px' }} />
+                    </div>
                 </div>
                 <div className='get-started'>
                     <a className='link-button' href='/'> Get Started </a>

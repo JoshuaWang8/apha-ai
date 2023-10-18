@@ -1,7 +1,3 @@
-.instruction-page {
-    height: 100vh;
-}
-
 .instruction-section-heading,
 .features-section-heading {
     margin-top: 40px;
@@ -12,6 +8,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 80px;
+    justify-content: center;
 }
 
 .upload-instruction,
@@ -41,6 +38,7 @@ h2 {
 
 .get-started {
     padding-top: 30px;
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
 }
@@ -58,9 +56,16 @@ h2 {
 }
 
 .feature-name {
-    color: white
+    color: white;
+    font-size: 22px;
+    margin: 5px 0px;
 }
 
 .feature-title {
     font-weight: bold;
+}
+
+.feature-img {
+    display: flex;
+    justify-content: center;
 }
