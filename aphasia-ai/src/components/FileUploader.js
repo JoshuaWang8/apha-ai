@@ -9,6 +9,7 @@ import './FileUploader.css';
 const FileUploader = ({ onProcessingComplete }) => {
     const [filename, setFilename] = useState('');
     const [uploadedFile, setUploadedFile] = useState('');
+    const [onFileProcessClicked, setOnFileProcessClicked] = useState(false);
     const hiddenFileInput = useRef(null);
 
     const handleFileUploadClick = event => {
@@ -93,10 +94,11 @@ const FileUploader = ({ onProcessingComplete }) => {
             fullText += processedText.toLowerCase().replace(/[[(.,][^\]).,]*[\]).,]/g, '') + ' ';
             sections[i]['content'] = processedText;
         }
-        
+
         // Find keywords if it shows up in 2% of the document
         findKeywords(fullText);
         onProcessingComplete(filename, sections, keywords);
+        setOnFileProcessClicked(true);
     }
 
     function splitTextIntoSections(rawText) {
@@ -158,7 +160,7 @@ const FileUploader = ({ onProcessingComplete }) => {
                                     content: currentSectionContent
                                 });
                             }
-    
+
                             // Start a new section
                             currentSection = matchingSectionHeader;
                             currentSectionContent = lineTrimmed.replace(matchingSectionHeader, '').trim();
@@ -174,19 +176,19 @@ const FileUploader = ({ onProcessingComplete }) => {
             // Add the last section if it has content
             if (currentSectionContent) {
                 sections.push({
-                title: currentSection,
-                content: currentSectionContent
+                    title: currentSection,
+                    content: currentSectionContent
                 });
             }
             return sections;
         }
-        return [{title: '', content: rawText}];
+        return [{ title: '', content: rawText }];
     }
 
     function isResearchPaper(text) {
         // Convert text to lowercase for case-insensitive matching
         const lowercaseText = text.toLowerCase();
-      
+
         // Check for the presence of common section headers
         const sections = ['abstract', 'introduction', 'literature', 'literature review', 'methodology', 'method', 'data', 'results', 'discussion', 'conclusion', 'recommendations', 'acknowledgments', 'author contributions', 'references', 'appendices', 'figures and tables'];
 
@@ -196,7 +198,7 @@ const FileUploader = ({ onProcessingComplete }) => {
             if (lowercaseText.includes(header)) {
                 headings++;
             }
-            if (headings >=4) {
+            if (headings >= 4) {
                 break;
             }
         }
@@ -204,33 +206,33 @@ const FileUploader = ({ onProcessingComplete }) => {
         // Check for the presence of citations and a references section
         const hasCitations = /\(\d{4}\)/.test(text);
         const hasReferences = lowercaseText.includes("references");
-      
+
         // Combine all checks
         return headings >= 4 && (hasCitations || hasReferences);
     }
-    
+
     function findKeywords(inputText) {
         // Tokenize the text into terms (words or phrases)
         const terms = inputText.split(/\s+/);
-        
+
         // Calculate Term Frequency (TF) for each term
         const termFrequency = {};
         terms.forEach(term => {
             termFrequency[term] = (termFrequency[term] || 0) + 1;
         });
-        
+
         // Calculate Inverse Document Frequency (IDF)
         const inverseDocumentFrequency = {};
         terms.forEach(term => {
             inverseDocumentFrequency[term] = Math.log(terms.length / (terms.filter(element => element === term).length + 1));
         });
-        
+
         // Calculate TF-IDF score for each term
         const keywords = Object.keys(termFrequency).map(term => ({
             term,
             tfidf: termFrequency[term] * inverseDocumentFrequency[term],
         }));
-        
+
         // Sort keywords by TF-IDF score
         keywords.sort((a, b) => b.tfidf - a.tfidf);
 
@@ -248,7 +250,7 @@ const FileUploader = ({ onProcessingComplete }) => {
         let i = 0;
         const keywordsToHighlight = [];
 
-        while (keywordCount < (keywords.length)*10/100) {
+        while (keywordCount < (keywords.length) * 10 / 100) {
             if (!stopwords.includes(keywords[i]['term'])) {
                 keywordsToHighlight.push(keywords[i]['term']);
                 keywordCount++;
@@ -286,7 +288,7 @@ const FileUploader = ({ onProcessingComplete }) => {
             {uploadedFile.length > 0 &&
                 (<div className='file-process'>
                     <button className="button-process" onClick={handleFileClear}> Clear File <MdOutlineClear /> </button>
-                    <button className="button-process" onClick={handleFileProcessing}> Process File <MdOutlineSummarize /> </button>
+                    <button className="button-process" onClick={handleFileProcessing}> {onFileProcessClicked ? 'Highlight Keywords' : 'Process File'} <MdOutlineSummarize /> </button>
                 </div>)}
         </div>
     );
