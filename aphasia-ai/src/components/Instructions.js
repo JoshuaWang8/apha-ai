@@ -36,6 +36,20 @@ export const Instructions = () => {
                         <LuFileText size={200} color='navy' />
                     </div>
                 </div>
+                <div className='features-section-heading'>
+                    <h1> Features </h1>
+                </div>
+                <div className='features-content'>
+                    <ul className='features-list'>
+                        <l1 className='feature-name'> <span className='feature-title'> Dictionary Definition: </span> select a word and right click to view defintion </l1>
+                        <l1 className='feature-name'> <span className='feature-title'> Keyword Highlighting: </span> press highlight keywords to view important words in summary </l1>
+                        <l1 className='feature-name'> <span className='feature-title'> Voice Assistance: </span>  press voice assistance button to start listening to speech for summarisation </l1>
+                        <l1 className='feature-name'> <span className='feature-title'> Text-to-Voice: </span> press read results to listen to the output summary </l1>
+                    </ul>
+                </div>
+                <div className='get-started'>
+                    <a className='link-button' href='/'> Get Started </a>
+                </div>
             </div>
         </Template>
     )

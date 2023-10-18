@@ -29,7 +29,7 @@ function App() {
         setBlobVisible(results.length !== 0 ? true : false);
         setKeywords(keywords);
     }
-    
+
     return (
         <Template>
             <div className="App">
