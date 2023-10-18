@@ -10,6 +10,7 @@ const FileUploader = ({ onProcessingComplete }) => {
     const [filename, setFilename] = useState('');
     const [uploadedFile, setUploadedFile] = useState('');
     const [onFileProcessClicked, setOnFileProcessClicked] = useState(false);
+    const [loadingSummary, setLoadingSummary] = useState(false);
     const hiddenFileInput = useRef(null);
 
     const handleFileUploadClick = event => {
@@ -62,6 +63,8 @@ const FileUploader = ({ onProcessingComplete }) => {
         const sections = splitTextIntoSections(uploadedFile);
         let fullText = '';
 
+        setLoadingSummary(true);
+
         // Process each section
         for (let i = 0; i < sections.length; i++) {
             // Split the text into sentences
@@ -100,6 +103,7 @@ const FileUploader = ({ onProcessingComplete }) => {
         findKeywords(fullText);
         onProcessingComplete(filename, sections, keywords);
         setOnFileProcessClicked(true);
+        setLoadingSummary(false);
     }
 
     function splitTextIntoSections(rawText) {
@@ -290,6 +294,7 @@ const FileUploader = ({ onProcessingComplete }) => {
                 (<div className='file-process'>
                     <button className="button-process" onClick={handleFileClear}> Clear File <MdOutlineClear /> </button>
                     <button className="button-process" onClick={handleFileProcessing}> {onFileProcessClicked ? 'Highlight Keywords' : 'Process File'} <MdOutlineSummarize /> </button>
+                    {loadingSummary && <span> loading... </span>}
                 </div>)}
         </div>
     );
