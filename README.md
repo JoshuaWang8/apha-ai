@@ -73,15 +73,16 @@ aphasia-ai-reading/
         src/
             assets/
             components/
+    models/
 ```
-The above shows the structure of this repository. The `aphasia-ai/` directory contains the major project files for this React application, with the App file and its components all under the `src/` directory.
+The above shows the structure of this repository. The `aphasia-ai/` directory contains the major project files for this React application, with the App file and its components all under the `src/` directory. The `models/` directory contains 4 Jupyter notebooks which were used to fine-tuning the BART and T5 models (attempted in both TensorFlow and PyTorch), though these models were not used in the final application due to issues with the libraries required to complete integration.
 
 ## Running the Application
-To run this app locally, first download or clone the repository. Next, navigate to the directory where you have saved the project, and install all the required libraries listed under the [Libraries](#libraries) section by running `npm install` in the command line. Finally, navigate into the `aphasia-ai-reading/aphasia-ai/` directory and run `npm start` to run the application in development mode and open [http://localhost:3000](http://localhost:3000) to view the application locally.
+To run this app locally, first ensure that you have Node.js installed, which can be found at [https://nodejs.org/en/download](https://nodejs.org/en/download). Then, download or clone this repository. Next, navigate to the directory where you have saved the project, and install all the required libraries listed under the [Libraries](#libraries) section by running `npm install` in the command line. Finally, navigate into the `aphasia-ai-reading/aphasia-ai/` directory and run `npm start` to run the application in development mode and open [http://localhost:3000](http://localhost:3000) to view the application locally.
+
+**Note**: The app needs around 2 minutes to load before any summarizations can be made, as the API needs time to start up. Please refrain from processing any files during this time.
 
 **Note**: The README under `/aphasia-ai/README.md` contains the original README generated from creating the React project, which provides more usage details for the web application.
-
-**Note**: The app needs around 2 minutes to load before any summarizations can be made, due to an API bottleneck.
 
 ## References
 [1] PDF.js Library, from https://www.npmjs.com/package/pdfjs
