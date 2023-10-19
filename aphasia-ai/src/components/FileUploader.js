@@ -99,7 +99,7 @@ const FileUploader = ({ onProcessingComplete }) => {
             sections[i]['content'] = processedText;
         }
 
-        // Find keywords if it shows up in 2% of the document
+        // Find keywords and complete processing
         findKeywords(fullText);
         onProcessingComplete(filename, sections, keywords);
         setOnFileProcessClicked(true);
@@ -254,7 +254,7 @@ const FileUploader = ({ onProcessingComplete }) => {
         let keywordCount = 0;
         let i = 0;
         const keywordsToHighlight = [];
-
+        // Only take keywords which are not a stopword
         while (keywordCount < (keywords.length) * 10 / 100) {
             if (!stopwords.includes(keywords[i]['term'])) {
                 keywordsToHighlight.push(keywords[i]['term']);
